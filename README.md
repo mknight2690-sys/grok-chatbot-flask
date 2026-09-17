@@ -1,33 +1,62 @@
-# HariBot AI – Personal Website Chatbot
+# Grok Bot - Flask Chatbot with OpenAI API
 
-Welcome to HariBot, a custom-built AI chatbot powered by the OpenAI API. Designed to provide intelligent responses, streamline information access, and enhance user engagement, this project integrates Python (Flask) backend with a responsive HTML/CSS frontend hosted via GitHub Pages, and deployed on Render.
+A Grok-style chatbot built with Flask and the OpenAI API. Deployable to Render in minutes.
 
-🚀 Live Demo
+## Features
 
-👉 Try it out on my personal website:
-[hariprashad-ravikumar.github.io
-](https://hariprashad-ravikumar.github.io/)
+- 🚀 Grok-style conversational AI powered by OpenAI GPT-4o-mini
+- 💬 Real-time chat with conversation history
+- 🌐 Responsive web UI with dark theme
+- ⚡ One-click Deploy to Render
 
+## Quick Deploy
 
-✨ Features
+Click the button below to deploy to Render:
 
-🔗 Seamless integration of OpenAI GPT-powered chat
-🧠 Dynamic response generation via API
-🌐 Backend hosted on Render
-🖥️ Frontend embedded into GitHub Pages site
-📱 Fully responsive UI for mobile and desktop
-🎯 Designed for academic and professional audience interaction
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/mknight2690-sys/grok-chatbot-flask)
 
+## Local Setup
 
-🛠️ Tech Stack
+```bash
+# 1. Clone and install
+git clone https://github.com/mknight2690-sys/grok-chatbot-flask
+cd grok-chatbot-flask
+pip install -r requirements.txt
 
-| Component      | Technology           |
-| -------------- | -------------------- |
-| **AI Engine**  | OpenAI GPT (via API) |
-| **Backend**    | Python (Flask)       |
-| **Deployment** | Render               |
-| **Frontend**   | HTML, CSS            |
-| **Hosting**    | GitHub Pages         |
+# 2. Set your OpenAI API key
+export OPENAI_API_KEY=your-key-here
 
+# 3. Run locally
+python app.py
+```
 
-![Demo](demo/demo.png)
+Open http://localhost:5000 and start chatting!
+
+## Environment Variables
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `OPENAI_API_KEY` | Your OpenAI API key | Yes |
+
+## Tech Stack
+
+| Component | Technology |
+|-----------|-----------|
+| AI Engine | OpenAI GPT-4o-mini (API) |
+| Backend | Python + Flask |
+| Deployment | Render |
+| Frontend | HTML/CSS/JS |
+
+## Project Structure
+
+```
+grok-chatbot/
+├── app.py              # Flask backend with OpenAI API
+├── system_prompt.txt   # Grok persona system prompt
+├── requirements.txt    # Python dependencies
+├── Procfile            # Render start command
+├── render.yaml         # Render service config
+└── static/
+    ├── index.html      # Chat web UI
+    └── style.css       # Styles
+```
