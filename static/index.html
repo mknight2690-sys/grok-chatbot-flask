@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HariBot 🤖</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: "Times New Roman", Times, serif;
+    }
+
+    h2 {
+      margin: 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    #info {
+      font-size: 0.8rem;
+      margin: 0.5rem 1rem 1rem;
+      color: #555;
+    }
+
+    #chat {
+      height: 300px;
+      overflow-y: auto;
+      padding: 0.75rem 1rem;
+      box-sizing: border-box;
+    }
+
+    form {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+      box-sizing: border-box;
+    }
+
+    input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      outline: none;
+      font-size: 0.95rem;
+      font-family: "Times New Roman", Times, serif;
+    }
+
+    button {
+      background: #001f3f;
+      color: white;
+      border: none;
+      margin-left: 8px;
+      padding: 8px 16px;
+      border-radius: 8px; /* smoother rectangle */
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #003366;
+    }
+
+    p {
+      margin: 0.3rem 0;
+    }
+
+    #chat p b {
+      color: #333;
+    }
+
+    a {
+      color: #4a90e2;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Ask me anything about Hari 👋</h2>
+  <div id="info">
+    Check this AI chatbot project on my <a href="https://github.com/Hariprashad-Ravikumar/Hari-ChatBot" target="_blank">GitHub</a>
+  </div>
+
+  <div id="chat"></div>
+
+  <form id="msgForm">
+    <input id="msgInput" placeholder="Ask me" autocomplete="off" />
+    <button type="submit" title="Send">➤</button>
+  </form>
+
+  <script>
+    const chat = document.getElementById("chat");
+    const form = document.getElementById("msgForm");
+    const input = document.getElementById("msgInput");
+
+    function scrollToBottom() {
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const q = input.value.trim();
+      if (!q) return;
+
+      chat.insertAdjacentHTML("beforeend", `<p><b style="color:#1f77b4">You:</b> <span style="color:#1f77b4">${q}</span></p>`);
+      scrollToBottom();
+      input.value = "";
+
+      chat.insertAdjacentHTML("beforeend", `<p id="loading">HariBot is typing…</p>`);
+      scrollToBottom();
+
+      try {
+        const r = await fetch("/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: q })
+        });
+        const data = await r.json();
+        document.getElementById("loading").remove();
+        chat.insertAdjacentHTML("beforeend", `<p><b style="color:#2e2e2e;">HariBot:</b> <span style="color:#2e2e2e;">${data.reply}</span></p>`);
+        scrollToBottom();
+      } catch (err) {
+        document.getElementById("loading").remove();
+        chat.insertAdjacentHTML("beforeend", `<p style="color:red"><b>Error:</b> ${err.message}</p>`);
+        scrollToBottom();
+      }
+    });
+  </script>
+
+</body>
+</html>
