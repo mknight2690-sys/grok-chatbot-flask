@@ -1,15 +1,15 @@
 from flask import Flask, request, jsonify
 import os
+from openai import OpenAI
 
 app = Flask(__name__)
 
 with open("system_prompt.txt", "r") as f:
     SYSTEM_PROMPT = f.read()
 
-client = None
-if os.getenv("OPENAI_API_KEY"):
-    from openai import OpenAI
-    client = OpenAI()
+client = OpenAI(
+    api_key=os.getenv("OPENAI_API_KEY", "")
+)
 
 
 def gpt_reply(user_msg: str, history: list = None) -> str:
@@ -37,8 +37,11 @@ def chat():
     data = request.get_json()
     msg = data.get("message", "")
     history = data.get("history", [])
-    reply = gpt_reply(msg, history)
-    return jsonify({"reply": reply})
+    try:
+        reply = gpt_reply(msg, history)
+        return jsonify({"reply": reply})
+    except Exception as e:
+        return jsonify({"error": str(e)})
 
 
 if __name__ == "__main__":
